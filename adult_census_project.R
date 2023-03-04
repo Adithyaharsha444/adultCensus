@@ -75,9 +75,6 @@ library(dplyr)
 pairs.panels(adult_data)
 
 
-
-pairs.panels(adult_data)
-
 # Create plot of income vs education with sex using ggplot2
 ggplot(adult_data, aes(x = education_num, fill = income)) +
   geom_bar(data = subset(adult_data, income == ">50K"),
@@ -102,24 +99,14 @@ ggplot(adult_data, aes(x = education_num, fill = income)) +
                     labels = c("<=50K", ">50K"))  +
   theme_minimal()
 
-
-
-adult_data$education
-
 summary(adult_data)
-library(ggplot2)
-library(ggplot2)
-install.packages("ggplot2")
+
 ggplot(adult_data, aes(x = education, y = income)) + 
   geom_bar(stat = "identity", fill = "#69b3a2") +
   xlab("Education") +
   ylab("Income") +
   ggtitle("Mean Income by Education Level")
-income
-mean(income)
-# create a summary table of education and income
-education_income <- adult_data %>% group_by(education) %>% summarize(mean_income = mean(income))
-education_income
+
 
 # plot a bar chart of education and income
 ggplot(adult_data, aes(x = education, y = income)) + 
@@ -136,30 +123,36 @@ my_adult_data <- c("age", "workclass", "fnlwgt", "education", "education_num",
 
 
 colnames(adult_data)
-
+#creating dummy variable for character variable 
 num_adult_data = dummyVars("~.", data = adult_data[-15])
 adult_data_1 = data.frame(predict(num_adult_data, newdata = adult_data))
 adult_data_1
 summary(adult_data_1)
+
 colnames(adult_data_1)
 
-
+#converting income as numeric
 adult_data_1$income <- as.numeric(adult_data_1$income)
 
+#Fiting a Full Model
 Full_model_adultdatset = lm(income~., data = adult_data_1)
 summary(Full_model_adultdatset)
 
+#correlation 
 cor(Full_model_adultdatset$residuals, adult_data_1[-105])
 alias(Full_model_adultdatset)
 
+#PCA 
 PCA_adult_datset = prcomp(adult_data_1[-105],scale. = T)
 PCA_adult_datset
 summary(PCA_adult_datset)
 
 PCA_adult_datset$rotation
 
+#Screeplot to check elbow point
 plot(PCA_adult_datset, type = "l", main = "Scree Plot")
 
+#principle analysis  
 P1 = principal(adult_data_1, nfactors =3, rotate ="varimax")
 print(P1$loadings, cutoff = .4)
 
